@@ -6,6 +6,7 @@ using Random = UnityEngine.Random;
 [RequireComponent(typeof(Renderer))]
 public class Cube : MonoBehaviour
 {
+    [SerializeField] Material _defaultMaterial;
     private CollisionDetector _collisionDetector;
     private Rigidbody _rigidbody;
     private Renderer _renderer;
@@ -36,6 +37,7 @@ public class Cube : MonoBehaviour
 
     private void OnDisable()
     {
+        Refresh();
         _collisionDetector.CollisionDetected -= HandleCollision;
     }
 
@@ -49,6 +51,13 @@ public class Cube : MonoBehaviour
         {
             LifeTimeEnded?.Invoke(this);
         }
+    }
+
+    private void Refresh()
+    {
+        _detonationStarted = false;
+        _isColorSwitched = false;
+        _renderer.material = _defaultMaterial;
     }
 
     private void HandleCollision()
